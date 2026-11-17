@@ -11,4 +11,4 @@ def test_home():
 def test_health():
     client = app.test_client()
     response = client.get("/health")
-    assert response.get_json()["status"] == "broken"
+    assert response.get_json()["status"] == "healthy"
