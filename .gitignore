@@ -1,0 +1,9 @@
+*.pem
+*.env
+.env
+*.tfstate
+*.tfstate.*
+.terraform/
+.aws/
+__pycache__/
+.pytest_cache/
