@@ -12,3 +12,10 @@ def test_health():
     client = app.test_client()
     response = client.get("/health")
     assert response.get_json()["status"] == "healthy"
+
+
+def test_metrics():
+    client = app.test_client()
+    client.get("/")
+    response = client.get("/metrics")
+    assert b"app_requests_total" in response.data
