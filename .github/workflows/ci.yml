@@ -60,3 +60,16 @@ jobs:
         run: |
           docker push "$IMAGE:latest"
           docker push "$IMAGE:${{ github.sha }}"
+
+  scan:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t devops-project .
+
+      - name: Scan image for vulnerabilities
+        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --severity HIGH,CRITICAL --ignore-unfixed --exit-code 0 devops-project
