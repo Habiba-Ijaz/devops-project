@@ -43,6 +43,21 @@ spec:
   replicas: 2
   selector:
     matchLabels:
+   apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  GREETING: "Hello from ConfigMap"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-project
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
       app: devops-project
   template:
     metadata:
@@ -54,6 +69,9 @@ spec:
           image: habibaijaz/devops-project:latest
           ports:
             - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: app-config
           readinessProbe:
             httpGet:
               path: /health
@@ -71,4 +89,3 @@ spec:
   ports:
     - port: 80
       targetPort: 5000
-

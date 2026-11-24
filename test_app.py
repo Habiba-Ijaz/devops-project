@@ -19,3 +19,9 @@ def test_metrics():
     client.get("/")
     response = client.get("/metrics")
     assert b"app_requests_total" in response.data
+
+
+def test_greeting_from_env(monkeypatch):
+    monkeypatch.setenv("GREETING", "Salam")
+    client = app.test_client()
+    assert client.get("/").get_json()["message"] == "Salam"

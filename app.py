@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, jsonify, request, Response
 from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 
@@ -15,7 +17,8 @@ def count_request(response):
 
 @app.route("/")
 def home():
-    return jsonify(message="Hello from my DevOps project", status="ok")
+    message = os.environ.get("GREETING", "Hello from my DevOps project")
+    return jsonify(message=message, status="ok")
 
 
 @app.route("/health")
